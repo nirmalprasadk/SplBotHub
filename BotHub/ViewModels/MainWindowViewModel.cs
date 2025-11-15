@@ -2,6 +2,7 @@
 using Reusables.Contracts;
 using Reusables.Services.Connection;
 using System.Collections.ObjectModel;
+using Reusables.Models;
 
 namespace BotHub.ViewModels;
 
@@ -32,8 +33,14 @@ public class MainWindowViewModel : BaseViewModel
         {
             _selectedBot = value;
             OnPropertyChanged();
+            OnPropertyChanged(nameof(BotLogs));
+            OnPropertyChanged(nameof(CanDisplayLogs));
         }
     }
+
+    public bool CanDisplayLogs => SelectedBot is not null;
+
+    public ObservableCollection<BotLogEntry>? BotLogs => SelectedBot?.SessionLogs;
 
     public MainWindowViewModel(ISboxConnectionService sboxConnectionService, IBotLoaderService botLoaderService)
     {
