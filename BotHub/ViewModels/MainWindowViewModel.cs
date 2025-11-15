@@ -1,9 +1,9 @@
 ﻿using BotContract.Interfaces;
-using SplBotHub.Services;
-using SplBotHub.Services.Connection;
+using BotHub.Services;
+using BotHub.Services.Connection;
 using System.Collections.ObjectModel;
 
-namespace SplBotHub.ViewModels;
+namespace BotHub.ViewModels;
 
 public class MainWindowViewModel : BaseViewModel
 {

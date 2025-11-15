@@ -1,4 +1,4 @@
-﻿namespace SplBotHub.Models;
+﻿namespace BotHub.Models;
 
 public class SBoxServerConfig
 {

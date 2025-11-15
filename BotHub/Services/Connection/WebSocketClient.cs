@@ -2,7 +2,7 @@
 using System.Net.WebSockets;
 using System.Text;
 
-namespace SplBotHub.Services.Connection;
+namespace BotHub.Services.Connection;
 
 public class WebSocketClient : IClient
 {

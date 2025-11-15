@@ -1,4 +1,4 @@
-﻿namespace SplBotHub.Services.Connection;
+﻿namespace BotHub.Services.Connection;
 
 public interface ISboxConnectionService
 {

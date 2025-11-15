@@ -1,6 +1,6 @@
 ﻿using BotContract.Interfaces;
 
-namespace SplBotHub.Services;
+namespace BotHub.Services;
 
 public interface IBotLoaderService
 {

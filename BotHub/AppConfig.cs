@@ -1,6 +1,6 @@
-﻿using SplBotHub.Models;
+﻿using BotHub.Models;
 
-namespace SplBotHub;
+namespace BotHub;
 
 public class AppConfig
 {

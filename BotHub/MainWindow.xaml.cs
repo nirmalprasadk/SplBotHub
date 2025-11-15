@@ -1,7 +1,7 @@
-﻿using SplBotHub.ViewModels;
+﻿using BotHub.ViewModels;
 using System.Windows;
 
-namespace SplBotHub;
+namespace BotHub;
 
 /// <summary>
 /// Interaction logic for MainWindow.xaml

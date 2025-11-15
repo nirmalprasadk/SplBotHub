@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Text.Json;
 
-namespace SplBotHub.Services;
+namespace BotHub.Services;
 
 public static class ConfigService
 {

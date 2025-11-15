@@ -1,12 +1,12 @@
 ﻿using BotContract.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SplBotHub.Services;
-using SplBotHub.Services.Connection;
-using SplBotHub.ViewModels;
+using BotHub.Services;
+using BotHub.Services.Connection;
+using BotHub.ViewModels;
 using System.Windows;
 
-namespace SplBotHub;
+namespace BotHub;
 
 /// <summary>
 /// Interaction logic for App.xaml

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace SplBotHub.ViewModels;
+namespace BotHub.ViewModels;
 
 public abstract class BaseViewModel : INotifyPropertyChanged
 {

@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.IO;
 using System.Reflection;
 
-namespace SplBotHub.Services;
+namespace BotHub.Services;
 
 public class BotLoaderService : IBotLoaderService
 {
