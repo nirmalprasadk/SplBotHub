@@ -14,7 +14,6 @@
 
     <Window.Resources>
 
-        <!--  Button text converter  -->
         <converter:BoolToConnectDisconnectConverter x:Key="BoolToConnectDisconnectConverter" />
 
         <Style x:Key="GenericButtonStyle" TargetType="Button">
