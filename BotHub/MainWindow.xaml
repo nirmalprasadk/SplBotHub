@@ -6,9 +6,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="{Binding WindowTitle}"
-    Width="900"
+    Width="650"
     Height="550"
-    Background="#F5F7FA"
+    Background="{StaticResource AppBackgroundBrush}"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
 
@@ -17,9 +17,11 @@
         <!--  Button text converter  -->
         <converter:BoolToConnectDisconnectConverter x:Key="BoolToConnectDisconnectConverter" />
 
-        <!--  Modern button  -->
+        <!--  Modern Button Style  -->
         <Style TargetType="Button">
-            <Setter Property="Background" Value="#4A6CF7" />
+            <Setter Property="Width" Value="100" />
+            <Setter Property="Height" Value="30" />
+            <Setter Property="Background" Value="{StaticResource PrimaryBrush}" />
             <Setter Property="Foreground" Value="White" />
             <Setter Property="Padding" Value="10,6" />
             <Setter Property="Margin" Value="6" />
@@ -27,6 +29,7 @@
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="Cursor" Value="Hand" />
             <Setter Property="HorizontalAlignment" Value="Left" />
+
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -36,14 +39,15 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#3A57D6" />
+                    <Setter Property="Background" Value="{StaticResource PrimaryHoverBrush}" />
                 </Trigger>
             </Style.Triggers>
         </Style>
 
-        <!--  Combobox style  -->
+        <!--  ComboBox Style  -->
         <Style TargetType="ComboBox">
             <Setter Property="Background" Value="White" />
             <Setter Property="Padding" Value="8" />
@@ -57,14 +61,15 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <!--  HEADER BAR  -->
         <Border
-            Padding="20"
-            Background="White"
-            BorderBrush="#E3E7EC"
+            Padding="10"
+            Background="{StaticResource HeaderBackgroundBrush}"
+            BorderBrush="{StaticResource HeaderBorderBrush}"
             BorderThickness="0,0,0,1">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -75,23 +80,37 @@
                 <!--  App Title  -->
                 <TextBlock
                     VerticalAlignment="Center"
-                    FontSize="28"
+                    FontSize="18"
                     FontWeight="Bold"
-                    Foreground="#333"
-                    Text="SPL Bot Hub" />
+                    Foreground="{StaticResource PrimaryTextBrush}"
+                    Text="SBOX Connection" />
 
-                <!--  Connect / Disconnect button  -->
+                <!--  Connect / Disconnect  -->
                 <Button
                     Grid.Column="1"
-                    Width="130"
                     Command="{Binding SBoxConnectionCommand}"
-                    Content="{Binding IsSBoxConnected, Converter={StaticResource BoolToConnectDisconnectConverter}}" />
+                    Content="{Binding IsSBoxConnected, Converter={StaticResource BoolToConnectDisconnectConverter}}">
+                    <Button.Style>
+                        <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
+                            <Setter Property="Background" Value="{StaticResource ConnectBrush}" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsSBoxConnected}" Value="True">
+                                    <Setter Property="Background" Value="{StaticResource DisconnectBrush}" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
             </Grid>
         </Border>
 
-
         <!--  MAIN CONTENT  -->
-        <StackPanel Grid.Row="1" Margin="30">
+        <StackPanel
+            Grid.Row="1"
+            Margin="10"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal">
 
             <!--  Bot selection  -->
             <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
@@ -99,8 +118,9 @@
                     Margin="0,0,8,0"
                     VerticalAlignment="Center"
                     FontSize="16"
-                    Foreground="#444"
+                    Foreground="{StaticResource SecondaryTextBrush}"
                     Text="Available Bots:" />
+
                 <ComboBox
                     DisplayMemberPath="Name"
                     ItemsSource="{Binding AvailableBots}"
@@ -108,21 +128,24 @@
             </StackPanel>
 
             <!--  Buttons  -->
-            <StackPanel Margin="0,20,0,0" Orientation="Horizontal">
-                <Button
-                    Width="130"
-                    Command="{Binding ReloadBotsCommand}"
-                    Content="Reload" />
+            <Button Command="{Binding ReloadBotsCommand}" Content="Reload" />
 
-                <Button
-                    Width="130"
-                    Command="{Binding BotConnectionCommand}"
-                    Content="{Binding IsBotRunning, Converter={StaticResource BoolToConnectDisconnectConverter}}"
-                    IsEnabled="{Binding SelectedBot}" />
-            </StackPanel>
-
+            <Button
+                Command="{Binding BotConnectionCommand}"
+                Content="{Binding IsBotRunning, Converter={StaticResource BoolToConnectDisconnectConverter}}"
+                IsEnabled="{Binding SelectedBot}">
+                <Button.Style>
+                    <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
+                        <Setter Property="Background" Value="{StaticResource ConnectBrush}" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsBotRunning}" Value="True">
+                                <Setter Property="Background" Value="{StaticResource DisconnectBrush}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
         </StackPanel>
 
     </Grid>
-
 </Window>

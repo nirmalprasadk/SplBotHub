@@ -9,6 +9,7 @@ public class MainWindowViewModel : BaseViewModel
 {
     private readonly ISboxConnectionService _sboxConnectionService;
     private readonly IBotLoaderService _botLoaderService;
+    private IBot? _selectedBot;
 
     public string WindowTitle => "SPL Bot Hub";
 
@@ -24,7 +25,15 @@ public class MainWindowViewModel : BaseViewModel
 
     public ObservableCollection<IBot> AvailableBots { get; }
 
-    public IBot? SelectedBot { get; set; }
+    public IBot? SelectedBot
+    {
+        get => _selectedBot; 
+        set
+        {
+            _selectedBot = value;
+            OnPropertyChanged();
+        }
+    }
 
     public MainWindowViewModel(ISboxConnectionService sboxConnectionService, IBotLoaderService botLoaderService)
     {
@@ -65,6 +74,11 @@ public class MainWindowViewModel : BaseViewModel
         foreach (IBot bot in _botLoaderService.LoadedBots)
         {
             AvailableBots.Add(bot);
+        }
+
+        if (SelectedBot is null || !AvailableBots.Contains(SelectedBot))
+        {
+            SelectedBot = AvailableBots.FirstOrDefault();
         }
     }
 }
