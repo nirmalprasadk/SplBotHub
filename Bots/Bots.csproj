@@ -7,14 +7,24 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<!-- Copy bots into the running app output folder -->
-		<BotOutputDir>..\SplBotHub\bin\$(Configuration)\net8.0-windows\Bots\</BotOutputDir>
+		<!-- Path to main app output folder -->
+		<FrameworkBotsDir>..\BotHub\bin\$(Configuration)\net8.0-windows\Bots\</FrameworkBotsDir>
 	</PropertyGroup>
 
-	<Target Name="CopyBotsToApp" AfterTargets="Build">
-		<MakeDir Directories="$(BotOutputDir)" />
+	<Target Name="CopyBotToMainApp" AfterTargets="Build">
+		<Message Text="Copying $(TargetPath) to $(FrameworkBotsDir)" Importance="high" />
 
-		<Copy SourceFiles="$(TargetPath)" DestinationFolder="$(BotOutputDir)" SkipUnchangedFiles="true" />
+		<MakeDir Directories="$(FrameworkBotsDir)" />
+
+		<Copy
+			SourceFiles="$(TargetPath)"
+			DestinationFolder="$(FrameworkBotsDir)"
+			SkipUnchangedFiles="false" />
+
+		<Copy
+			SourceFiles="$(TargetPath).pdb"
+			DestinationFolder="$(FrameworkBotsDir)"
+			Condition="Exists('$(TargetPath).pdb')" />
 	</Target>
 
 	<ItemGroup>
