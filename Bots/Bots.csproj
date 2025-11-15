@@ -1,13 +1,27 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\BotContract\BotContract.csproj" />
-  </ItemGroup>
+	<PropertyGroup>
+		<!-- Copy bots into the running app output folder -->
+		<BotOutputDir>..\SplBotHub\bin\$(Configuration)\net8.0-windows\Bots\</BotOutputDir>
+	</PropertyGroup>
+
+	<Target Name="CopyBotsToApp" AfterTargets="Build">
+		<MakeDir Directories="$(BotOutputDir)" />
+
+		<Copy
+			SourceFiles="$(TargetPath)"
+			DestinationFolder="$(BotOutputDir)"
+			SkipUnchangedFiles="true" />
+	</Target>
+
+	<ItemGroup>
+		<ProjectReference Include="..\BotContract\BotContract.csproj" />
+	</ItemGroup>
 
 </Project>

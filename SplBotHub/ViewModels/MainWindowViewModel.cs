@@ -11,6 +11,8 @@ public class MainWindowViewModel : BaseViewModel
     private readonly ISboxConnectionService _sboxConnectionService;
     private readonly IBotLoaderService _botLoaderService;
 
+    public string WindowTitle => "SPL Bot Hub";
+
     public bool IsConnectionEstablishedWithSBox
     {
         get => _isConnectionEstablishedWithSBox; 

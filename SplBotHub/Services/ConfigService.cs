@@ -1,33 +1,40 @@
-﻿namespace SplBotHub.Services;
-
-using System.IO;
+﻿using System.IO;
 using System.Text.Json;
+
+namespace SplBotHub.Services;
 
 public static class ConfigService
 {
     private const string ConfigPath = "appsettings.json";
 
-    public static AppConfig? Load()
+    public static AppConfig Load()
     {
         if (!File.Exists(ConfigPath))
         {
-            AppConfig defaultConfig = new();
+            AppConfig defaultConfig = new()
+            {
+                SBOXServerConfig = new()
+            };
+
             Save(defaultConfig);
             return defaultConfig;
         }
 
         string json = File.ReadAllText(ConfigPath);
-        return JsonSerializer.Deserialize<AppConfig>(json);
+
+        return JsonSerializer.Deserialize<AppConfig>(json)
+            ?? new AppConfig { SBOXServerConfig = new() };
     }
 
     public static void Save(AppConfig config)
     {
-        string json = JsonSerializer.Serialize(config, new JsonSerializerOptions
+        JsonSerializerOptions options = new()
         {
             WriteIndented = true
-        });
+        };
+
+        string json = JsonSerializer.Serialize(config, options);
 
         File.WriteAllText(ConfigPath, json);
     }
 }
-

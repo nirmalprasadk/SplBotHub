@@ -4,11 +4,11 @@ namespace Bots;
 
 public abstract class BotBase : IBot
 {
-    protected readonly IGameConnection GameConnection;
+    protected readonly IClient GameConnection;
 
     public string Name { get; }
 
-    protected BotBase(IGameConnection gameConnection, string? name = null)
+    protected BotBase(IClient gameConnection, string? name = null)
     {
         GameConnection = gameConnection;
         Name = name ?? GetType().Name;
@@ -16,12 +16,12 @@ public abstract class BotBase : IBot
 
     public virtual void Start()
     {
-        GameConnection.OnGameEventReceived += GameEventReceived;
+        GameConnection.OnMessageReceived += GameEventReceived;
     }
 
     public virtual void Stop()
     {
-        GameConnection.OnGameEventReceived -= GameEventReceived;
+        GameConnection.OnMessageReceived -= GameEventReceived;
     }
 
     protected abstract void GameEventReceived(string message);

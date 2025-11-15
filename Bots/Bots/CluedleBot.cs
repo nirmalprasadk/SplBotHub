@@ -2,7 +2,7 @@
 
 namespace Bots.Bots;
 
-public class CluedleBot(IGameConnection gameConnection, string? name = null) : BotBase(gameConnection, name)
+public class CluedleBot(IClient gameConnection, string? name = null) : BotBase(gameConnection, name)
 {
     protected override void GameEventReceived(string message)
     {

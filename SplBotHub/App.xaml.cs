@@ -28,7 +28,7 @@ public partial class App : Application
 
     private void RegisterServices(IServiceCollection services)
     {
-        services.AddSingleton<IGameConnection, WebSocketGameConnection>();
+        services.AddSingleton<IClient, WebSocketClient>();
         services.AddSingleton<ISboxConnectionService, SBoxConnectionService>();
         services.AddSingleton<IBotLoaderService, BotLoaderService>();
     }

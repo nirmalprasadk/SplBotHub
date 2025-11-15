@@ -4,5 +4,5 @@ namespace SplBotHub;
 
 public class AppConfig
 {
-    public GameConnectionConfig? GameConnection { get; set; }
+    public SBoxServerConfig? SBOXServerConfig { get; set; }
 }

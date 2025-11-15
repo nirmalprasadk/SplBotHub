@@ -5,27 +5,27 @@ namespace SplBotHub.Services.Connection;
 public class SBoxConnectionService : ISboxConnectionService
 {
     private readonly AppConfig _appConfig;
-    private readonly IGameConnection _gameConnection;
+    private readonly IClient _client;
 
-    public SBoxConnectionService(IGameConnection gameConnection)
+    public SBoxConnectionService(IClient client)
     {
         _appConfig = ConfigService.Load() ?? new();
 
-        _gameConnection = gameConnection;
+        _client = client;
     }
 
     public async Task ToggleSBoxConnection(bool IsConnectionActive)
     {
         if (IsConnectionActive)
         {
-            await _gameConnection.DisconnectAsync(CancellationToken.None);
+            await _client.DisconnectAsync(CancellationToken.None);
         }
         else
         {
-            Uri? serverUri = _appConfig.GameConnection?.BuildUri()
+            Uri? serverUri = _appConfig.SBOXServerConfig?.BuildUri()
                 ?? throw new NullReferenceException("Server URI is null. Please check your configuration.");
 
-            await _gameConnection.ConnectAsync(serverUri, CancellationToken.None);
+            await _client.ConnectAsync(serverUri, CancellationToken.None);
         }
     }
 }

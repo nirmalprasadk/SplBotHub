@@ -1,12 +1,12 @@
 ﻿namespace BotContract.Interfaces;
 
-public interface IGameConnection
+public interface IClient
 {
     Task ConnectAsync(Uri serverUri, CancellationToken cancellationToken);
 
     Task DisconnectAsync(CancellationToken cancellationToken);
 
-    void SendMessage(string message);
+    Task SendMessageAsync(string message, CancellationToken cancellationToken);
 
-    event Action<string>? OnGameEventReceived;
+    event Action<string>? OnMessageReceived;
 }
