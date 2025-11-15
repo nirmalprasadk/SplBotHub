@@ -45,7 +45,7 @@
             </Style.Triggers>
         </Style>
 
-        <Style TargetType="ComboBox">
+        <Style x:Key="GenericComboBoxStyle" TargetType="ComboBox">
             <Setter Property="Background" Value="{StaticResource AppBackgroundBrush}" />
             <Setter Property="Padding" Value="10" />
             <Setter Property="Width" Value="250" />
@@ -120,7 +120,8 @@
                 <ComboBox
                     DisplayMemberPath="Name"
                     ItemsSource="{Binding AvailableBots}"
-                    SelectedItem="{Binding SelectedBot, Mode=TwoWay}" />
+                    SelectedItem="{Binding SelectedBot, Mode=TwoWay}"
+                    Style="{StaticResource GenericComboBoxStyle}" />
             </StackPanel>
 
             <!--  Bot Controls  -->
