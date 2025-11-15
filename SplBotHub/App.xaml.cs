@@ -1,7 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using BotContract.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SplBotHub.Connection;
 using SplBotHub.Services;
+using SplBotHub.Services.Connection;
 using SplBotHub.ViewModels;
 using System.Windows;
 

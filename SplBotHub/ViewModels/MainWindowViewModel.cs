@@ -1,5 +1,6 @@
-﻿using SplBotHub.Bots;
+﻿using BotContract.Interfaces;
 using SplBotHub.Services;
+using SplBotHub.Services.Connection;
 using System.Collections.ObjectModel;
 
 namespace SplBotHub.ViewModels;
@@ -47,9 +48,8 @@ public class MainWindowViewModel : BaseViewModel
             await _sboxConnectionService.ToggleSBoxConnection(IsConnectionEstablishedWithSBox);
             IsConnectionEstablishedWithSBox = !IsConnectionEstablishedWithSBox;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            Console.WriteLine($"Error updating SBox connection: {ex.Message}");
         }
     }
 

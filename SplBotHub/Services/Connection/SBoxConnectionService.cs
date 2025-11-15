@@ -1,6 +1,6 @@
-﻿using SplBotHub.Connection;
+﻿using BotContract.Interfaces;
 
-namespace SplBotHub.Services;
+namespace SplBotHub.Services.Connection;
 
 public class SBoxConnectionService : ISboxConnectionService
 {

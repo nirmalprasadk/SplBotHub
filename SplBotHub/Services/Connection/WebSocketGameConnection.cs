@@ -1,6 +1,7 @@
-﻿using System.Net.WebSockets;
+﻿using BotContract.Interfaces;
+using System.Net.WebSockets;
 
-namespace SplBotHub.Connection;
+namespace SplBotHub.Services.Connection;
 
 public class WebSocketGameConnection : IGameConnection
 {
@@ -18,6 +19,6 @@ public class WebSocketGameConnection : IGameConnection
 
     public async Task DisconnectAsync(CancellationToken cancellationToken)
     {
-        await _webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "", cancellationToken); 
+        await _webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "", cancellationToken);
     }
 }

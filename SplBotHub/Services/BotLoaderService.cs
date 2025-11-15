@@ -1,4 +1,5 @@
-﻿using SplBotHub.Bots;
+﻿using BotContract.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 using System.IO;
 using System.Reflection;
 
@@ -8,11 +9,14 @@ public class BotLoaderService : IBotLoaderService
 {
     private readonly string _botFolder;
     private readonly List<IBot> _loadedBots;
+    private readonly IServiceProvider _serviceProvider;
 
     public IReadOnlyList<IBot> LoadedBots => _loadedBots;
 
-    public BotLoaderService()
+    public BotLoaderService(IServiceProvider serviceProvider)
     {
+        _serviceProvider = serviceProvider;
+
         _botFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Bots");
 
         if (!Directory.Exists(_botFolder))
@@ -26,8 +30,17 @@ public class BotLoaderService : IBotLoaderService
 
     public void ReloadBots()
     {
+        StopAllBots();
         LoadBots();
     }
+
+    public void StartAllBots() => _loadedBots.ForEach(bot => bot.Start());
+
+    public void StopAllBots() => _loadedBots.ForEach(bot => bot.Stop());
+
+    public void StartBot(IBot bot) => bot.Start();
+
+    public void StopBot(IBot bot) => bot.Stop();
 
     private void LoadBots()
     {
@@ -37,19 +50,27 @@ public class BotLoaderService : IBotLoaderService
         {
             try
             {
-                Assembly assembly = Assembly.LoadFrom(dll);
-
-                IEnumerable<IBot?> bots = assembly.GetTypes()
-                    .Where(type => typeof(IBot).IsAssignableFrom(type) && !type.IsAbstract)
-                    .Select(type => Activator.CreateInstance(type) as IBot)
-                    .Where(bot => bot != null);
-
-                _loadedBots.AddRange(bots!);
+                foreach (Type type in loadBotTypesFromDll(dll))
+                {
+                    if (ActivatorUtilities.CreateInstance(_serviceProvider, type) is IBot bot)
+                    {
+                        _loadedBots.Add(bot);
+                    }
+                }
             }
-            catch
+            catch (Exception)
             {
-                // Log or ignore invalid DLLs
+
             }
         }
+    }
+
+    private static IEnumerable<Type> loadBotTypesFromDll(string dll)
+    {
+        return Assembly.LoadFrom(dll)
+            .GetTypes()
+            .Where(type => typeof(IBot).IsAssignableFrom(type)
+            && !type.IsAbstract
+            && type.IsClass);
     }
 }
