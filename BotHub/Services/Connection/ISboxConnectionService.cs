@@ -2,5 +2,5 @@
 
 public interface ISboxConnectionService
 {
-    Task ToggleSBoxConnection(bool IsConnectionActive);
+    Task ToggleConnection(bool IsConnectionActive);
 }

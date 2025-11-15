@@ -14,7 +14,7 @@ public class SBoxConnectionService : ISboxConnectionService
         _client = client;
     }
 
-    public async Task ToggleSBoxConnection(bool IsConnectionActive)
+    public async Task ToggleConnection(bool IsConnectionActive)
     {
         if (IsConnectionActive)
         {

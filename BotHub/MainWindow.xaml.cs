@@ -8,12 +8,9 @@ namespace BotHub;
 /// </summary>
 public partial class MainWindow : Window
 {
-    private readonly MainWindowViewModel _mainWindowViewModel;
-
     public MainWindow(MainWindowViewModel mainWindowViewModel)
     {
         InitializeComponent();
-        _mainWindowViewModel = mainWindowViewModel;
         DataContext = mainWindowViewModel;
     }
 }

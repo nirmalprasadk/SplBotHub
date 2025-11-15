@@ -7,4 +7,8 @@ public interface IBot
     void Start();
 
     void Stop();
+
+    void ToggleConnection();
+
+    bool IsRunning { get; }
 }

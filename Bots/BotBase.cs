@@ -8,6 +8,8 @@ public abstract class BotBase : IBot
 
     public string Name { get; }
 
+    public bool IsRunning { get; private set; }
+
     protected BotBase(IClient gameConnection, string? name = null)
     {
         GameConnection = gameConnection;
@@ -22,6 +24,20 @@ public abstract class BotBase : IBot
     public virtual void Stop()
     {
         GameConnection.OnMessageReceived -= GameEventReceived;
+    }
+
+    public void ToggleConnection()
+    {
+        if (IsRunning)
+        {
+            Stop();
+        }
+        else
+        {
+           Start();
+        }
+
+        IsRunning = !IsRunning;
     }
 
     protected abstract void GameEventReceived(string message);

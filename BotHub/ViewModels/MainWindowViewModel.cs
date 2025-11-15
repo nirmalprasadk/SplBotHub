@@ -8,6 +8,7 @@ namespace BotHub.ViewModels;
 public class MainWindowViewModel : BaseViewModel
 {
     private bool _isConnectionEstablishedWithSBox;
+    private bool _isBotConnected;
     private readonly ISboxConnectionService _sboxConnectionService;
     private readonly IBotLoaderService _botLoaderService;
 
@@ -23,9 +24,13 @@ public class MainWindowViewModel : BaseViewModel
         }
     }
 
-    public BindingCommand SBoxConnectionCommand { get; }
+    public BindingCommand SBoxConnectionCommand { get; private set; }
 
-    public BindingCommand ReloadBotsCommand { get; }
+    public BindingCommand ReloadBotsCommand { get; private set; }
+
+    public BindingCommand BotConnectionCommand { get; private set; }
+
+    public bool IsBotRunning => SelectedBot is not null && SelectedBot.IsRunning;
 
     public ObservableCollection<IBot> AvailableBots { get; }
 
@@ -39,15 +44,21 @@ public class MainWindowViewModel : BaseViewModel
         SBoxConnectionCommand = new BindingCommand(UpdateSBoxConnection);
         ReloadBotsCommand = new BindingCommand(ReloadBots);
 
+        BotConnectionCommand = new BindingCommand(UpdateBotConnection, CanEnableBotConnectionButton);
+
         AvailableBots = new ObservableCollection<IBot>();
         LoadBotsToUI();
     }
+
+    private bool CanEnableBotConnectionButton(object? arg) => SelectedBot != null;
+
+    private void UpdateBotConnection(object? obj) => SelectedBot?.ToggleConnection();
 
     private async void UpdateSBoxConnection(object? obj)
     {
         try
         {
-            await _sboxConnectionService.ToggleSBoxConnection(IsConnectionEstablishedWithSBox);
+            await _sboxConnectionService.ToggleConnection(IsConnectionEstablishedWithSBox);
             IsConnectionEstablishedWithSBox = !IsConnectionEstablishedWithSBox;
         }
         catch (Exception)

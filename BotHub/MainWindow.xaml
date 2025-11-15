@@ -15,6 +15,7 @@
             Margin="10"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
+            DisplayMemberPath="Name"
             ItemsSource="{Binding AvailableBots}"
             SelectedItem="{Binding SelectedBot, Mode=TwoWay}" />
         <Button
