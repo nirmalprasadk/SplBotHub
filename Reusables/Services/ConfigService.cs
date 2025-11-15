@@ -1,7 +1,7 @@
-﻿using System.IO;
+﻿using Reusables.Models;
 using System.Text.Json;
 
-namespace BotHub.Services;
+namespace Reusables.Services;
 
 public static class ConfigService
 {

@@ -1,6 +1,6 @@
-﻿using BotContract.Interfaces;
-using BotHub.Services;
-using BotHub.Services.Connection;
+﻿using Reusables.Services;
+using Reusables.Contracts;
+using Reusables.Services.Connection;
 using System.Collections.ObjectModel;
 
 namespace BotHub.ViewModels;

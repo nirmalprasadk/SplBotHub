@@ -1,6 +1,4 @@
-﻿using BotHub.Models;
-
-namespace BotHub;
+﻿namespace Reusables.Models;
 
 public class AppConfig
 {

@@ -1,4 +1,4 @@
-﻿namespace BotContract.Interfaces;
+﻿namespace Reusables.Contracts;
 
 public interface IBot
 {

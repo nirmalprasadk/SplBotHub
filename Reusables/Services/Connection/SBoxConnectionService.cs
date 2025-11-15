@@ -1,6 +1,7 @@
-﻿using BotContract.Interfaces;
+﻿using Reusables.Contracts;
+using Reusables.Models;
 
-namespace BotHub.Services.Connection;
+namespace Reusables.Services.Connection;
 
 public class SBoxConnectionService : ISboxConnectionService
 {

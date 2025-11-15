@@ -1,4 +1,4 @@
-﻿using BotContract.Interfaces;
+﻿using Reusables.Contracts;
 
 namespace Bots.Bots;
 

@@ -1,10 +1,12 @@
-﻿using BotContract.Interfaces;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using BotHub.Services;
-using BotHub.Services.Connection;
 using BotHub.ViewModels;
 using System.Windows;
+using Reusables.Contracts;
+using BotHub.Services.Connection;
+using Reusables.Services.Connection;
+using BotHub.Services;
+using Reusables.Services;
 
 namespace BotHub;
 

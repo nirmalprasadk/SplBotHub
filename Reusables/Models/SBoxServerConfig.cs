@@ -1,4 +1,4 @@
-﻿namespace BotHub.Models;
+﻿namespace Reusables.Models;
 
 public class SBoxServerConfig
 {

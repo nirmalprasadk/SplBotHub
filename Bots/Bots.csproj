@@ -14,14 +14,11 @@
 	<Target Name="CopyBotsToApp" AfterTargets="Build">
 		<MakeDir Directories="$(BotOutputDir)" />
 
-		<Copy
-			SourceFiles="$(TargetPath)"
-			DestinationFolder="$(BotOutputDir)"
-			SkipUnchangedFiles="true" />
+		<Copy SourceFiles="$(TargetPath)" DestinationFolder="$(BotOutputDir)" SkipUnchangedFiles="true" />
 	</Target>
 
 	<ItemGroup>
-		<ProjectReference Include="..\BotContract\BotContract.csproj" />
+		<ProjectReference Include="..\Reusables\Reusables.csproj" />
 	</ItemGroup>
 
 </Project>

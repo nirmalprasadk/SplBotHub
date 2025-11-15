@@ -1,6 +1,6 @@
-﻿using BotContract.Interfaces;
+﻿using Reusables.Contracts;
 
-namespace BotHub.Services;
+namespace Reusables.Services;
 
 public interface IBotLoaderService
 {

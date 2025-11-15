@@ -1,4 +1,4 @@
-﻿namespace BotHub.Services.Connection;
+﻿namespace Reusables.Services.Connection;
 
 public interface ISboxConnectionService
 {

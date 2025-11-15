@@ -1,4 +1,4 @@
-﻿using BotContract.Interfaces;
+﻿using Reusables.Contracts;
 using System.Net.WebSockets;
 using System.Text;
 
