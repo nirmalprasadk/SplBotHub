@@ -1,4 +1,7 @@
-﻿namespace Reusables.Contracts;
+﻿using Reusables.Models;
+using System.Collections.ObjectModel;
+
+namespace Reusables.Contracts;
 
 public interface IBot
 {
@@ -11,4 +14,8 @@ public interface IBot
     void ToggleConnection();
 
     bool IsRunning { get; }
+
+    Task SendEventToGame(string message);
+
+    ObservableCollection<BotLogEntry> SessionLogs { get; }
 }
