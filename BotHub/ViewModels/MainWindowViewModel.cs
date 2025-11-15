@@ -33,14 +33,14 @@ public class MainWindowViewModel : BaseViewModel
         {
             _selectedBot = value;
             OnPropertyChanged();
-            OnPropertyChanged(nameof(BotLogs));
+            OnPropertyChanged(nameof(SelectedBotLogs));
             OnPropertyChanged(nameof(CanDisplayLogs));
         }
     }
 
     public bool CanDisplayLogs => SelectedBot is not null;
 
-    public ObservableCollection<BotLogEntry>? BotLogs => SelectedBot?.SessionLogs;
+    public ObservableCollection<BotLogEntry>? SelectedBotLogs => SelectedBot?.SessionLogs;
 
     public MainWindowViewModel(ISboxConnectionService sboxConnectionService, IBotLoaderService botLoaderService)
     {

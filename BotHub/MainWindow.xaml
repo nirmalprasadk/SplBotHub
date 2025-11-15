@@ -155,5 +155,37 @@
             </Button>
         </StackPanel>
 
+        <Border
+            Grid.Row="2"
+            Margin="20"
+            Padding="10"
+            Background="{StaticResource AppBackgroundBrush}"
+            BorderBrush="{StaticResource HeaderBackgroundBrush}"
+            BorderThickness="1"
+            CornerRadius="10">
+
+            <ListBox ItemsSource="{Binding SelectedBotLogs}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border
+                            Margin="0,2"
+                            Padding="5"
+                            CornerRadius="5">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock
+                                    Margin="0,0,10,0"
+                                    FontWeight="Bold"
+                                    Foreground="{StaticResource PrimaryTextBrush}"
+                                    Text="{Binding MessageSource}" />
+
+                                <TextBlock Foreground="{StaticResource PrimaryTextBrush}" Text="{Binding Message}" />
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Border>
+
+
     </Grid>
 </Window>

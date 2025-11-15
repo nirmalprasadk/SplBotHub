@@ -28,12 +28,14 @@ public abstract class BotBase : IBot
         SessionLogs.Clear();
         GameConnection.OnMessageReceived += OnGameEventReceivedInternal;
         IsRunning = true;
+        SessionLogs.Add(new BotLogEntry(MessageSource.Bot, "Bot started."));
     }
 
     public virtual void Stop()
     {
         GameConnection.OnMessageReceived -= OnGameEventReceivedInternal;
         IsRunning = false;
+        SessionLogs.Add(new BotLogEntry(MessageSource.Bot, "Bot Stopped."));
     }
 
     public void ToggleConnection()
