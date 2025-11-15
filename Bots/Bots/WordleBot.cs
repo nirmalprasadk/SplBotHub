@@ -1,7 +1,6 @@
 ﻿using BotContract.Interfaces;
-using Bots;
 
-namespace SplBotHub.Bots;
+namespace Bots.Bots;
 
 public class WordleBot(IClient gameConnection, string? name = null) : BotBase(gameConnection, name)
 {

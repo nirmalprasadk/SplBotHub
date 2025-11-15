@@ -24,5 +24,12 @@
             VerticalAlignment="Top"
             Command="{Binding SBoxConnectionCommand}"
             Content="Connect to SBOX" />
+        <Button
+            Width="100"
+            Margin="330,10,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Command="{Binding ReloadBotsCommand}"
+            Content="Reload Bots" />
     </Grid>
 </Window>
