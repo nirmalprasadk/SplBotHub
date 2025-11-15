@@ -41,14 +41,16 @@ public class MainWindowViewModel : BaseViewModel
         _botLoaderService = botLoaderService;
 
         SBoxConnectionCommand = new BindingCommand(UpdateSBoxConnection);
-        ReloadBotsCommand = new BindingCommand(ReloadBots);
+        ReloadBotsCommand = new BindingCommand(ReloadBots, CanReloadBots);
         BotConnectionCommand = new BindingCommand(UpdateBotConnection, CanEnableBotConnectionButton);
 
         AvailableBots = new ObservableCollection<IBot>();
         LoadBotsToUI();
     }
 
-    private bool CanEnableBotConnectionButton(object? arg) => SelectedBot != null;
+    private bool CanReloadBots(object? arg) => !IsBotRunning;
+
+    private bool CanEnableBotConnectionButton(object? arg) => IsSBoxConnected && SelectedBot != null;
 
     private void UpdateBotConnection(object? obj)
     {
