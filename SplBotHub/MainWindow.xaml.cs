@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using SplBotHub.ViewModels;
+using System.Windows;
 
 namespace SplBotHub;
 
@@ -7,8 +8,12 @@ namespace SplBotHub;
 /// </summary>
 public partial class MainWindow : Window
 {
-    public MainWindow()
+    private readonly MainWindowViewModel _mainWindowViewModel;
+
+    public MainWindow(MainWindowViewModel mainWindowViewModel)
     {
         InitializeComponent();
+        _mainWindowViewModel = mainWindowViewModel;
+        DataContext = mainWindowViewModel;
     }
 }
