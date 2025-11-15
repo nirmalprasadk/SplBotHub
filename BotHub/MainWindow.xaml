@@ -129,26 +129,31 @@
                 <Button.Style>
                     <Style BasedOn="{StaticResource GenericButtonStyle}" TargetType="Button">
                         <Setter Property="Background" Value="{StaticResource PrimaryBrush}" />
+                        <Setter Property="Opacity" Value="1" />
                         <Style.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter Property="Background" Value="{StaticResource PrimaryHoverBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.8" />
                             </Trigger>
                         </Style.Triggers>
                     </Style>
                 </Button.Style>
             </Button>
 
-            <Button
-                Command="{Binding BotConnectionCommand}"
-                Content="{Binding IsBotRunning, Converter={StaticResource BoolToConnectDisconnectConverter}}"
-                IsEnabled="{Binding SelectedBot}">
+            <Button Command="{Binding BotConnectionCommand}" Content="{Binding IsBotRunning, Converter={StaticResource BoolToConnectDisconnectConverter}}">
                 <Button.Style>
                     <Style BasedOn="{StaticResource GenericButtonStyle}" TargetType="Button">
                         <Setter Property="Background" Value="{StaticResource ConnectBrush}" />
+                        <Setter Property="Opacity" Value="1" />
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding IsBotRunning}" Value="True">
                                 <Setter Property="Background" Value="{StaticResource DisconnectBrush}" />
                             </DataTrigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.8" />
+                            </Trigger>
                         </Style.Triggers>
                     </Style>
                 </Button.Style>

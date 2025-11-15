@@ -3,6 +3,7 @@ using Reusables.Contracts;
 using Reusables.Services.Connection;
 using System.Collections.ObjectModel;
 using Reusables.Models;
+using System.Windows.Input;
 
 namespace BotHub.ViewModels;
 
@@ -67,14 +68,30 @@ public class MainWindowViewModel : BaseViewModel
 
     private async void UpdateSBoxConnection(object? obj)
     {
-        await _sboxConnectionService.ToggleConnection();
-        OnPropertyChanged(nameof(IsSBoxConnected));
+        try
+        {
+            Mouse.OverrideCursor = Cursors.Wait;
+            await _sboxConnectionService.ToggleConnection();
+        }
+        finally
+        {
+            Mouse.OverrideCursor = null;
+            OnPropertyChanged(nameof(IsSBoxConnected));
+        }
     }
 
     private void ReloadBots(object? obj)
     {
-        _botLoaderService.ReloadBots();
-        LoadBotsToUI();
+        try
+        {
+            Mouse.OverrideCursor = Cursors.Wait;
+            _botLoaderService.ReloadBots();
+            LoadBotsToUI();
+        }
+        finally
+        {
+            Mouse.OverrideCursor = null;
+        }
     }
 
     private void LoadBotsToUI()
