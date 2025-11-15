@@ -7,22 +7,12 @@ namespace BotHub.ViewModels;
 
 public class MainWindowViewModel : BaseViewModel
 {
-    private bool _isConnectionEstablishedWithSBox;
-    private bool _isBotConnected;
     private readonly ISboxConnectionService _sboxConnectionService;
     private readonly IBotLoaderService _botLoaderService;
 
     public string WindowTitle => "SPL Bot Hub";
 
-    public bool IsConnectionEstablishedWithSBox
-    {
-        get => _isConnectionEstablishedWithSBox; 
-        set
-        {
-            _isConnectionEstablishedWithSBox = value;
-            OnPropertyChanged();
-        }
-    }
+    public bool IsSBoxConnected => _sboxConnectionService.IsConnected;
 
     public BindingCommand SBoxConnectionCommand { get; private set; }
 
@@ -43,7 +33,6 @@ public class MainWindowViewModel : BaseViewModel
 
         SBoxConnectionCommand = new BindingCommand(UpdateSBoxConnection);
         ReloadBotsCommand = new BindingCommand(ReloadBots);
-
         BotConnectionCommand = new BindingCommand(UpdateBotConnection, CanEnableBotConnectionButton);
 
         AvailableBots = new ObservableCollection<IBot>();
@@ -52,18 +41,16 @@ public class MainWindowViewModel : BaseViewModel
 
     private bool CanEnableBotConnectionButton(object? arg) => SelectedBot != null;
 
-    private void UpdateBotConnection(object? obj) => SelectedBot?.ToggleConnection();
+    private void UpdateBotConnection(object? obj)
+    {
+        SelectedBot?.ToggleConnection();
+        OnPropertyChanged(nameof(IsBotRunning));
+    }
 
     private async void UpdateSBoxConnection(object? obj)
     {
-        try
-        {
-            await _sboxConnectionService.ToggleConnection(IsConnectionEstablishedWithSBox);
-            IsConnectionEstablishedWithSBox = !IsConnectionEstablishedWithSBox;
-        }
-        catch (Exception)
-        {
-        }
+        await _sboxConnectionService.ToggleConnection();
+        OnPropertyChanged(nameof(IsSBoxConnected));
     }
 
     private void ReloadBots(object? obj)

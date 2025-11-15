@@ -19,11 +19,13 @@ public abstract class BotBase : IBot
     public virtual void Start()
     {
         GameConnection.OnMessageReceived += GameEventReceived;
+        IsRunning = true;
     }
 
     public virtual void Stop()
     {
         GameConnection.OnMessageReceived -= GameEventReceived;
+        IsRunning = false;
     }
 
     public void ToggleConnection()
@@ -36,8 +38,6 @@ public abstract class BotBase : IBot
         {
            Start();
         }
-
-        IsRunning = !IsRunning;
     }
 
     protected abstract void GameEventReceived(string message);
