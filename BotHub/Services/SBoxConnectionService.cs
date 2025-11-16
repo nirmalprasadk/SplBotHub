@@ -72,6 +72,7 @@ public class SBoxConnectionService : ISboxClient
 
     public async Task SendMessageAsync(string message)
     {
+        Log(MessageSource.Bot, message);
         await _client.SendMessageAsync(message, CancellationToken.None);
     }
 
@@ -81,9 +82,10 @@ public class SBoxConnectionService : ISboxClient
 
         _ = Task.Run(async () =>
         {
-            await foreach (string msg in reader.ReadAllAsync())
+            await foreach (string message in reader.ReadAllAsync())
             {
-                MessageReceived?.Invoke(msg);
+                Log(MessageSource.Game, message);
+                MessageReceived?.Invoke(message);
             }
         });
     }
