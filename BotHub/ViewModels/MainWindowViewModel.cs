@@ -2,6 +2,8 @@
 using System.Collections.ObjectModel;
 using Reusables.Models;
 using System.Windows.Input;
+using Reusables.Enums;
+using System.Collections.Specialized;
 
 namespace BotHub.ViewModels;
 
@@ -10,6 +12,9 @@ public class MainWindowViewModel : BaseViewModel
     private readonly ISboxClient _sBoxClient;
     private readonly IBotLoaderService _botLoaderService;
     private IBot? _selectedBot;
+    private string? _selectedSourceFilter;
+    private string? _selectedGameIdFilter;
+    private const string NoneFilter = "None";
 
     public string WindowTitle => "SPL Bot Hub";
 
@@ -36,14 +41,38 @@ public class MainWindowViewModel : BaseViewModel
             _selectedBot = value;
             _selectedBot?.Start();
             OnPropertyChanged();
-            OnPropertyChanged(nameof(SBoxLogs));
             OnPropertyChanged(nameof(CanDisplayLogs));
         }
     }
 
     public bool CanDisplayLogs => SelectedBot is not null;
 
-    public ObservableCollection<BotLogEntry> SBoxLogs => _sBoxClient.Logs;
+    public ObservableCollection<BotLogEntry> FilteredSBoxLogs { get; }
+
+    public List<string> SourceFilterOptions { get; private set; }
+
+    public ObservableCollection<string> GameIdsInLogs { get; private set; }
+
+    public string? SelectedSourceFilter
+    {
+        get => _selectedSourceFilter; 
+        set
+        {
+            _selectedSourceFilter = value;
+            OnPropertyChanged();
+            RefreshFilteredLogs();
+        }
+    }
+
+    public string? SelectedGameIdFilter
+    {
+        get => _selectedGameIdFilter; set
+        {
+            _selectedGameIdFilter = value;
+            OnPropertyChanged();
+            RefreshFilteredLogs();
+        }
+    }
 
     public MainWindowViewModel(ISboxClient sBoxClient, IBotLoaderService botLoaderService)
     {
@@ -55,19 +84,84 @@ public class MainWindowViewModel : BaseViewModel
         BotConnectionCommand = new BindingCommand(UpdateBotConnection, CanEnableBotConnectionButton);
         ClearLogsCommand = new BindingCommand(ClearSBoxLogs);
 
+        FilteredSBoxLogs = new ObservableCollection<BotLogEntry>();
+
+        SourceFilterOptions = SourceFilterOptions = Enum.GetNames(typeof(MessageSource)).ToList();
+        SourceFilterOptions.Insert(0, NoneFilter);
+        SelectedSourceFilter = NoneFilter;
+        GameIdsInLogs = new ObservableCollection<string>();
+        GameIdsInLogs.Insert(0, NoneFilter);
+        SelectedGameIdFilter = NoneFilter;
+
+        _sBoxClient.Logs.CollectionChanged += SBoxLogsChanged;
+
         AvailableBots = new ObservableCollection<IBot>();
         LoadBotsToUI();
-    }
-
-    private void ClearSBoxLogs(object? obj)
-    {
-        _sBoxClient.ClearLogs();
     }
 
     public void OnWindowClosed(object? sender, EventArgs args)
     {
         _botLoaderService.StopAllBots();
         _sBoxClient.DisconnectAsync().GetAwaiter().GetResult();
+    }
+
+    private void SBoxLogsChanged(object? sender, NotifyCollectionChangedEventArgs args)
+    {
+        if (args.Action == NotifyCollectionChangedAction.Reset)
+        {
+            GameIdsInLogs.Clear();
+        }
+        else
+        {
+            RefreshGameIds(args);
+        }
+
+        RefreshFilteredLogs();
+    }
+
+
+    private void RefreshGameIds(NotifyCollectionChangedEventArgs args)
+    {
+        if (args.Action != NotifyCollectionChangedAction.Add)
+        {
+            return;
+        }
+
+        foreach (object? item in args.NewItems!)
+        {
+            if (item is BotLogEntry log 
+                && !string.IsNullOrWhiteSpace(log.GameId) 
+                && !GameIdsInLogs.Contains(log.GameId))
+            {
+                GameIdsInLogs.Add(log.GameId);
+            }
+        }
+    }
+
+    private void RefreshFilteredLogs()
+    {
+        IEnumerable<BotLogEntry> logs = _sBoxClient.Logs;
+
+        if (SelectedSourceFilter != null && SelectedSourceFilter != NoneFilter)
+        {
+            logs = logs.Where(log => log.MessageSource.ToString() == SelectedSourceFilter);
+        }
+
+        if (!string.IsNullOrWhiteSpace(SelectedGameIdFilter) && SelectedGameIdFilter != NoneFilter)
+        {
+            logs = logs.Where(log => log.GameId != null && log.GameId.Contains(SelectedGameIdFilter, StringComparison.OrdinalIgnoreCase));
+        }
+
+        FilteredSBoxLogs.Clear();
+        foreach (BotLogEntry log in logs)
+        {
+            FilteredSBoxLogs.Add(log);
+        }
+    }
+
+    private void ClearSBoxLogs(object? obj)
+    {
+        _sBoxClient.ClearLogs();
     }
 
     private bool CanReloadBots(object? arg) => !IsBotRunning;
