@@ -5,25 +5,22 @@ namespace Reusables.Services.Connection;
 
 public class SBoxConnectionService : ISboxConnectionService
 {
-    private readonly AppConfig _appConfig;
+    private readonly SBoxServerConfig _sboxServerConfig;
     private readonly IClient _client;
 
     public bool IsConnected { get; private set; }
 
     public SBoxConnectionService(IClient client)
     {
-        _appConfig = ConfigService.Load() ?? new();
-
         _client = client;
+        _sboxServerConfig = ConfigService.GetAppConfig().SBOXServerConfig;
     }
 
     public async Task Connect()
     {
         try
         {
-            Uri? serverUri = _appConfig.SBOXServerConfig?.BuildUri()
-                ?? throw new NullReferenceException("Server URI is null. Please check your configuration.");
-
+            Uri serverUri = _sboxServerConfig.BuildUri();
             await _client.ConnectAsync(serverUri, CancellationToken.None);
             IsConnected = true;
         }

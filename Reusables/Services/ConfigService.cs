@@ -6,24 +6,26 @@ namespace Reusables.Services;
 public static class ConfigService
 {
     private const string ConfigPath = "appsettings.json";
+    private static AppConfig? AppConfig;
 
-    public static AppConfig Load()
+    public static AppConfig GetAppConfig()
     {
-        if (!File.Exists(ConfigPath))
-        {
-            AppConfig defaultConfig = new()
-            {
-                SBOXServerConfig = new()
-            };
+        AppConfig ??= Load();
+        return AppConfig;
+    }
 
-            Save(defaultConfig);
-            return defaultConfig;
+    private static AppConfig Load()
+    {
+        AppConfig defaultAppConfig = new();
+
+        if (File.Exists(ConfigPath))
+        {
+            string json = File.ReadAllText(ConfigPath);
+            return JsonSerializer.Deserialize<AppConfig>(json) ?? defaultAppConfig;
         }
 
-        string json = File.ReadAllText(ConfigPath);
-
-        return JsonSerializer.Deserialize<AppConfig>(json)
-            ?? new AppConfig { SBOXServerConfig = new() };
+        Save(defaultAppConfig);
+        return defaultAppConfig;
     }
 
     public static void Save(AppConfig config)

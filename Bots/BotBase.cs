@@ -8,6 +8,7 @@ namespace Bots;
 public abstract class BotBase : IBot
 {
     protected readonly IClient GameConnection;
+    protected readonly IAIService AIService;
 
     public string Name { get; }
 
@@ -15,9 +16,11 @@ public abstract class BotBase : IBot
 
     public ObservableCollection<BotLogEntry> SessionLogs {  get; }
 
-    protected BotBase(IClient gameConnection, string? name = null)
+    protected BotBase(IClient gameConnection, IAIService aIService, string? name = null)
     {
         GameConnection = gameConnection;
+        AIService = aIService;
+
         Name = name ?? GetType().Name;
 
         SessionLogs = new ObservableCollection<BotLogEntry>();

@@ -7,6 +7,7 @@ using BotHub.Services.Connection;
 using Reusables.Services.Connection;
 using BotHub.Services;
 using Reusables.Services;
+using Reusables.Services.AI;
 
 namespace BotHub;
 
@@ -33,6 +34,7 @@ public partial class App : Application
         services.AddSingleton<IClient, WebSocketClient>();
         services.AddSingleton<ISboxConnectionService, SBoxConnectionService>();
         services.AddSingleton<IBotLoaderService, BotLoaderService>();
+        services.AddSingleton<IAIService, OpenAIService>();
     }
 
     private void RegisterViewModels(IServiceCollection services)
