@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Reusables.Contracts;
+using System.IO;
 using System.Reflection;
 
 namespace BotHub.Services;

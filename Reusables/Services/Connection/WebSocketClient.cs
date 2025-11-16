@@ -1,17 +1,26 @@
 ﻿using Reusables.Contracts;
 using System.Net.WebSockets;
 using System.Text;
+using System.Threading.Channels;
 
 namespace BotHub.Services.Connection;
 
 public class WebSocketClient : IClient
 {
     private ClientWebSocket _webSocket;
+    private readonly Channel<string> _messageChannel;
     private CancellationTokenSource? _receiveLoopCancellationToken;
+
+    public ChannelReader<string> Messages => _messageChannel.Reader;
 
     public WebSocketClient()
     {
         _webSocket = new ClientWebSocket();
+        _messageChannel = Channel.CreateUnbounded<string>(new UnboundedChannelOptions
+        {
+            SingleReader = false,
+            SingleWriter = true
+        });
     }
 
     public async Task ConnectAsync(Uri serverUri, CancellationToken cancellationToken = default)
@@ -81,6 +90,7 @@ public class WebSocketClient : IClient
                 while (!result.EndOfMessage);
 
                 string message = builder.ToString();
+                await _messageChannel.Writer.WriteAsync(message, cancellationToken);
             }
         }
         catch (OperationCanceledException)

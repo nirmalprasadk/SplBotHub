@@ -4,7 +4,6 @@ using BotHub.ViewModels;
 using System.Windows;
 using Reusables.Contracts;
 using BotHub.Services.Connection;
-using Reusables.Services.Connection;
 using BotHub.Services;
 using Reusables.Services.AI;
 

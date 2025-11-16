@@ -21,11 +21,13 @@ public abstract class BotBase : IBot
 
     public virtual void Start()
     {
+        SBoxClient.MessageReceived += OnSBoxMessageReceivedInternal;
         IsRunning = true;
     }
 
     public virtual void Stop()
     {
+        SBoxClient.MessageReceived -= OnSBoxMessageReceivedInternal;
         IsRunning = false;
     }
 

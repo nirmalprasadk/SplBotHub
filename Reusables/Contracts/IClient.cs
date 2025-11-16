@@ -1,4 +1,6 @@
-﻿namespace Reusables.Contracts;
+﻿using System.Threading.Channels;
+
+namespace Reusables.Contracts;
 
 public interface IClient
 {
@@ -7,4 +9,6 @@ public interface IClient
     Task DisconnectAsync(CancellationToken cancellationToken);
 
     Task SendMessageAsync(string message, CancellationToken cancellationToken);
+
+    ChannelReader<string> Messages { get; }
 }

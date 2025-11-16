@@ -1,4 +1,7 @@
-﻿namespace Reusables.Contracts;
+﻿using Reusables.Models;
+using System.Collections.ObjectModel;
+
+namespace Reusables.Contracts;
 
 public interface ISboxClient
 {
@@ -11,4 +14,8 @@ public interface ISboxClient
     Task ToggleConnectionAsync();
 
     Task SendMessageAsync(string message);
+
+    event Action<string>? MessageReceived;
+
+    ObservableCollection<BotLogEntry> Logs { get; }
 }
