@@ -60,8 +60,17 @@ public class MainWindowViewModel : BaseViewModel
 
     private void UpdateBotConnection(object? obj)
     {
-        SelectedBot?.ToggleConnection();
-        OnPropertyChanged(nameof(IsBotRunning));
+        try
+        {
+            Mouse.OverrideCursor = Cursors.Wait;
+            SelectedBot?.ToggleConnection();
+        }
+        finally
+        {
+            Mouse.OverrideCursor = null;
+            OnPropertyChanged(nameof(IsBotRunning));
+            ReloadBotsCommand.RaiseCanExecuteChanged();
+        }
     }
 
     private async void UpdateSBoxConnection(object? obj)
@@ -75,6 +84,7 @@ public class MainWindowViewModel : BaseViewModel
         {
             Mouse.OverrideCursor = null;
             OnPropertyChanged(nameof(IsSBoxConnected));
+            BotConnectionCommand.RaiseCanExecuteChanged();
         }
     }
 

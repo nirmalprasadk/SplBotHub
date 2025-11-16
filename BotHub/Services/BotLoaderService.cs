@@ -58,9 +58,9 @@ public class BotLoaderService : IBotLoaderService
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-
+                Console.WriteLine(exception.Message);
             }
         }
     }
