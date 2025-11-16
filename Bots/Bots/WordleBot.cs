@@ -12,15 +12,24 @@ public class WordleBot(ISboxClient sBoxClient, IAIService aIService, string? nam
 
     protected override void HandleCommand(CommandMessage command)
     {
+        IBot bot = this;
+
+        BotGuessMessage botGuessMessage = new()
+        {
+            MatchId = command.MatchId,
+            GameId = command.GameId,
+            Otp = command.Otp,
+            Guess = "APPLE"
+        };
+
+        bot.SendMessageToSBox(botGuessMessage);
     }
 
     protected override void HandleGameResult(GameResultMessage gameResult)
     {
-        Console.WriteLine("========================================");
         Console.WriteLine($" Result for match {gameResult.MatchId}");
         Console.WriteLine($" Game:     {gameResult.GameId}");
         Console.WriteLine($" Outcome:  {gameResult.Result?.ToUpper()}");
         Console.WriteLine($" Word:     {gameResult.Word}");
-        Console.WriteLine("========================================");
     }
 }

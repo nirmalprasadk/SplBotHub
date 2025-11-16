@@ -45,17 +45,6 @@ public abstract class BotBase : IBot
         }
     }
 
-    protected async Task SendMessageToSBoxInternal(string message)
-    {
-        await SBoxClient.SendMessageAsync(message);
-    }
-
-    async Task IBot.SendMessageToSBox(BotGuessMessage response)
-    {
-        string responseJson = SBoxMessageParser.Serialize(response);
-        await SendMessageToSBoxInternal(responseJson);
-    }
-
     private void OnSBoxMessageReceivedInternal(string message)
     {
         if (SBoxMessageParser.Parse(message) is not SBoxMessageBase sBoxMessage)
@@ -89,4 +78,15 @@ public abstract class BotBase : IBot
     protected abstract void HandleCommand(CommandMessage command);
 
     protected abstract void HandleGameResult(GameResultMessage gameResult);
+
+    protected async Task SendMessageToSBoxInternal(string message)
+    {
+        await SBoxClient.SendMessageAsync(message);
+    }
+
+    async Task IBot.SendMessageToSBox(BotGuessMessage response)
+    {
+        string responseJson = SBoxMessageParser.Serialize(response);
+        await SendMessageToSBoxInternal(responseJson);
+    }
 }
