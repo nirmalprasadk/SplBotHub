@@ -11,7 +11,6 @@ public class WordleAIBot(ISboxClient sBoxClient, IAIService aIService, string? n
 
     protected override void HandleAck(AckMessage ack)
     {
-        Console.WriteLine($"Received Ack for: {ack.AckFor}");
     }
 
     protected override async void HandleCommand(CommandMessage command)
@@ -102,11 +101,6 @@ public class WordleAIBot(ISboxClient sBoxClient, IAIService aIService, string? n
 
     protected override void HandleGameResult(GameResultMessage gameResult)
     {
-        Console.WriteLine($" Result for match {gameResult.MatchId}");
-        Console.WriteLine($" Game:     {gameResult.GameId}");
-        Console.WriteLine($" Outcome:  {gameResult.Result?.ToUpper()}");
-        Console.WriteLine($" Word:     {gameResult.Word}");
-
         _games.Remove(gameResult.GameId!);
     }
 }
