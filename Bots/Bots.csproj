@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<!-- Path to main app output folder -->
+		<FrameworkBotsDir>..\BotHub\bin\$(Configuration)\net8.0-windows\Bots\</FrameworkBotsDir>
+	</PropertyGroup>
+
+	<Target Name="CopyBotToMainApp" AfterTargets="Build">
+		<Message Text="Copying $(TargetPath) to $(FrameworkBotsDir)" Importance="high" />
+
+		<MakeDir Directories="$(FrameworkBotsDir)" />
+
+		<Copy
+			SourceFiles="$(TargetPath)"
+			DestinationFolder="$(FrameworkBotsDir)"
+			SkipUnchangedFiles="false" />
+
+		<Copy
+			SourceFiles="$(TargetPath).pdb"
+			DestinationFolder="$(FrameworkBotsDir)"
+			Condition="Exists('$(TargetPath).pdb')" />
+	</Target>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Reusables\Reusables.csproj" />
+	</ItemGroup>
+
+</Project>
