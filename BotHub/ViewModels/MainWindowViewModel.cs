@@ -55,6 +55,7 @@ public class MainWindowViewModel : BaseViewModel
 
         AvailableBots = new ObservableCollection<IBot>();
         LoadBotsToUI();
+        OnPropertyChanged(nameof(SBoxLogs));
     }
 
     private void ClearSBoxLogs(object? obj)
