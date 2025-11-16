@@ -32,7 +32,9 @@ public class MainWindowViewModel : BaseViewModel
         get => _selectedBot; 
         set
         {
+            _selectedBot?.Stop();
             _selectedBot = value;
+            _selectedBot?.Start();
             OnPropertyChanged();
             OnPropertyChanged(nameof(SBoxLogs));
             OnPropertyChanged(nameof(CanDisplayLogs));
@@ -70,7 +72,7 @@ public class MainWindowViewModel : BaseViewModel
 
     private bool CanReloadBots(object? arg) => !IsBotRunning;
 
-    private bool CanEnableBotConnectionButton(object? arg) => IsSBoxConnected && SelectedBot != null;
+    private bool CanEnableBotConnectionButton(object? arg) => SelectedBot != null;
 
     private void UpdateBotConnection(object? obj)
     {
@@ -98,7 +100,6 @@ public class MainWindowViewModel : BaseViewModel
         {
             Mouse.OverrideCursor = null;
             OnPropertyChanged(nameof(IsSBoxConnected));
-            BotConnectionCommand.RaiseCanExecuteChanged();
         }
     }
 
