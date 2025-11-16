@@ -111,6 +111,7 @@ public class MainWindowViewModel : BaseViewModel
         {
             GameIdsInLogs.Clear();
             GameIdsInLogs.Insert(0, NoneFilter);
+            SelectedGameIdFilter = NoneFilter;
         }
         else
         {
