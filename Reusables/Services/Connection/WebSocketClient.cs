@@ -30,6 +30,15 @@ public class WebSocketClient : IClient
             await DisconnectAsync(cancellationToken);
         }
 
+        if (_webSocket.State == WebSocketState.Aborted 
+            || _webSocket.State == WebSocketState.Closed 
+            || _webSocket.State == WebSocketState.CloseReceived 
+            || _webSocket.State == WebSocketState.CloseSent)
+        {
+            _webSocket.Dispose();
+            _webSocket = new ClientWebSocket();
+        }
+
         await _webSocket.ConnectAsync(serverUri, cancellationToken);
 
         BeginMessageProcessing();
@@ -44,6 +53,9 @@ public class WebSocketClient : IClient
 
         _receiveLoopCancellationToken?.Cancel();
         await _webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "", cancellationToken);
+
+        _webSocket.Dispose();
+        _webSocket = new ClientWebSocket();
     }
 
     public async Task SendMessageAsync(string message, CancellationToken cancellationToken = default)
