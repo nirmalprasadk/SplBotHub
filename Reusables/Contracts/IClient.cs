@@ -7,6 +7,4 @@ public interface IClient
     Task DisconnectAsync(CancellationToken cancellationToken);
 
     Task SendMessageAsync(string message, CancellationToken cancellationToken);
-
-    event Action<string>? OnMessageReceived;
 }

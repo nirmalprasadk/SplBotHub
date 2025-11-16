@@ -3,7 +3,7 @@ using Reusables.Models;
 
 namespace Reusables.Services.Connection;
 
-public class SBoxConnectionService : ISboxConnectionService
+public class SBoxConnectionService : ISboxClient
 {
     private readonly SBoxServerConfig _sboxServerConfig;
     private readonly IClient _client;
@@ -16,7 +16,7 @@ public class SBoxConnectionService : ISboxConnectionService
         _sboxServerConfig = ConfigService.GetAppConfig().SBOXServerConfig;
     }
 
-    public async Task Connect()
+    public async Task ConnectAsync()
     {
         try
         {
@@ -30,7 +30,7 @@ public class SBoxConnectionService : ISboxConnectionService
         }
     }
 
-    public async Task Disconnect()
+    public async Task DisconnectAsync()
     {
         try
         {
@@ -46,15 +46,20 @@ public class SBoxConnectionService : ISboxConnectionService
         }
     }
 
-    public async Task ToggleConnection()
+    public async Task ToggleConnectionAsync()
     {
         if (IsConnected)
         {
-            await Disconnect();
+            await DisconnectAsync();
         }
         else
         {
-            await Connect();
+            await ConnectAsync();
         }
+    }
+
+    public async Task SendMessageAsync(string message)
+    {
+        await _client.SendMessageAsync(message, CancellationToken.None);
     }
 }

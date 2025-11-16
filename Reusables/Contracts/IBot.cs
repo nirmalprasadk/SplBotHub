@@ -1,11 +1,10 @@
-﻿using Reusables.Models;
-using System.Collections.ObjectModel;
-
-namespace Reusables.Contracts;
+﻿namespace Reusables.Contracts;
 
 public interface IBot
 {
     string Name { get; }
+
+    bool IsRunning { get; }
 
     void Start();
 
@@ -13,9 +12,5 @@ public interface IBot
 
     void ToggleConnection();
 
-    bool IsRunning { get; }
-
-    Task SendEventToGame(string message);
-
-    ObservableCollection<BotLogEntry> SessionLogs { get; }
+    Task SendMessageToSBox(string message);
 }

@@ -1,6 +1,4 @@
-﻿using Reusables.Contracts;
-
-namespace Reusables.Services;
+﻿namespace Reusables.Contracts;
 
 public interface IBotLoaderService
 {

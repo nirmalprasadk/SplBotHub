@@ -1,44 +1,32 @@
 ﻿using Reusables.Contracts;
-using Reusables.Enums;
-using Reusables.Models;
-using System.Collections.ObjectModel;
 
 namespace Bots;
 
 public abstract class BotBase : IBot
 {
-    protected readonly IClient GameConnection;
+    protected readonly ISboxClient SBoxClient;
     protected readonly IAIService AIService;
 
     public string Name { get; }
 
     public bool IsRunning { get; private set; }
 
-    public ObservableCollection<BotLogEntry> SessionLogs {  get; }
-
-    protected BotBase(IClient gameConnection, IAIService aIService, string? name = null)
+    protected BotBase(ISboxClient sBoxClient, IAIService aIService, string? name = null)
     {
-        GameConnection = gameConnection;
+        SBoxClient = sBoxClient;
         AIService = aIService;
 
         Name = name ?? GetType().Name;
-
-        SessionLogs = new ObservableCollection<BotLogEntry>();
     }
 
     public virtual void Start()
     {
-        SessionLogs.Clear();
-        GameConnection.OnMessageReceived += OnGameEventReceivedInternal;
         IsRunning = true;
-        SessionLogs.Add(new BotLogEntry(MessageSource.Bot, "Bot started."));
     }
 
     public virtual void Stop()
     {
-        GameConnection.OnMessageReceived -= OnGameEventReceivedInternal;
         IsRunning = false;
-        SessionLogs.Add(new BotLogEntry(MessageSource.Bot, "Bot Stopped."));
     }
 
     public void ToggleConnection()
@@ -53,22 +41,20 @@ public abstract class BotBase : IBot
         }
     }
 
-    protected async Task SendEventToGameInternal(string message)
+    protected async Task SendMessageToSBoxInternal(string message)
     {
-        SessionLogs.Add(new BotLogEntry(MessageSource.Bot, message));
-        await GameConnection.SendMessageAsync(message, CancellationToken.None);
+        await SBoxClient.SendMessageAsync(message);
     }
 
-    async Task IBot.SendEventToGame(string message)
+    async Task IBot.SendMessageToSBox(string message)
     {
-        await SendEventToGameInternal(message);
+        await SendMessageToSBoxInternal(message);
     }
 
-    private void OnGameEventReceivedInternal(string message)
+    private void OnSBoxMessageReceivedInternal(string message)
     {
-        SessionLogs.Add(new BotLogEntry(MessageSource.Game, message));
-        GameEventReceived(message);
+        OnSBoxMessageReceived(message);
     }
 
-    protected abstract void GameEventReceived(string message);
+    protected abstract void OnSBoxMessageReceived(string message);
 }

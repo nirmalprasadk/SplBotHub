@@ -9,8 +9,6 @@ public class WebSocketClient : IClient
     private ClientWebSocket _webSocket;
     private CancellationTokenSource? _receiveLoopCancellationToken;
 
-    public event Action<string>? OnMessageReceived;
-
     public WebSocketClient()
     {
         _webSocket = new ClientWebSocket();
@@ -83,7 +81,6 @@ public class WebSocketClient : IClient
                 while (!result.EndOfMessage);
 
                 string message = builder.ToString();
-                OnMessageReceived?.Invoke(message);
             }
         }
         catch (OperationCanceledException)

@@ -2,9 +2,9 @@
 
 namespace Bots.Bots;
 
-public class CluedleBot(IClient gameConnection, IAIService aIService, string? name = null) : BotBase(gameConnection, aIService, name)
+public class CluedleBot(ISboxClient sBoxClient, IAIService aIService, string? name = null) : BotBase(sBoxClient, aIService, name)
 {
-    protected override void GameEventReceived(string message)
+    protected override void OnSBoxMessageReceived(string message)
     {
         throw new NotImplementedException();
     }

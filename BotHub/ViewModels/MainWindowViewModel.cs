@@ -1,6 +1,4 @@
-﻿using Reusables.Services;
-using Reusables.Contracts;
-using Reusables.Services.Connection;
+﻿using Reusables.Contracts;
 using System.Collections.ObjectModel;
 using Reusables.Models;
 using System.Windows.Input;
@@ -9,7 +7,7 @@ namespace BotHub.ViewModels;
 
 public class MainWindowViewModel : BaseViewModel
 {
-    private readonly ISboxConnectionService _sboxConnectionService;
+    private readonly ISboxClient _sboxConnectionService;
     private readonly IBotLoaderService _botLoaderService;
     private IBot? _selectedBot;
 
@@ -34,16 +32,16 @@ public class MainWindowViewModel : BaseViewModel
         {
             _selectedBot = value;
             OnPropertyChanged();
-            OnPropertyChanged(nameof(SelectedBotLogs));
+            OnPropertyChanged(nameof(BotLogs));
             OnPropertyChanged(nameof(CanDisplayLogs));
         }
     }
 
     public bool CanDisplayLogs => SelectedBot is not null;
 
-    public ObservableCollection<BotLogEntry>? SelectedBotLogs => SelectedBot?.SessionLogs;
+    public ObservableCollection<BotLogEntry> BotLogs { get; }
 
-    public MainWindowViewModel(ISboxConnectionService sboxConnectionService, IBotLoaderService botLoaderService)
+    public MainWindowViewModel(ISboxClient sboxConnectionService, IBotLoaderService botLoaderService)
     {
         _sboxConnectionService = sboxConnectionService;
         _botLoaderService = botLoaderService;
@@ -52,6 +50,7 @@ public class MainWindowViewModel : BaseViewModel
         ReloadBotsCommand = new BindingCommand(ReloadBots, CanReloadBots);
         BotConnectionCommand = new BindingCommand(UpdateBotConnection, CanEnableBotConnectionButton);
 
+        BotLogs = new ObservableCollection<BotLogEntry>();
         AvailableBots = new ObservableCollection<IBot>();
         LoadBotsToUI();
     }
@@ -71,7 +70,7 @@ public class MainWindowViewModel : BaseViewModel
         try
         {
             Mouse.OverrideCursor = Cursors.Wait;
-            await _sboxConnectionService.ToggleConnection();
+            await _sboxConnectionService.ToggleConnectionAsync();
         }
         finally
         {

@@ -2,9 +2,9 @@
 
 namespace Bots.Bots;
 
-public class WordleBot(IClient gameConnection, IAIService aIService, string? name = null) : BotBase(gameConnection, aIService, name)
+public class WordleBot(ISboxClient sBoxClient, IAIService aIService, string? name = null) : BotBase(sBoxClient, aIService, name)
 {
-    protected override void GameEventReceived(string message)
+    protected override void OnSBoxMessageReceived(string message)
     {
         throw new NotImplementedException();
     }
