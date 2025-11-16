@@ -9,6 +9,7 @@
     Width="650"
     Height="550"
     Background="{StaticResource AppBackgroundBrush}"
+    Icon="BotHub.ico"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
 

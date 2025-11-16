@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>BotHub.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,6 +18,10 @@
     <None Remove="Service\**" />
     <Page Remove="Models\**" />
     <Page Remove="Service\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="BotHub.ico" />
   </ItemGroup>
 
   <ItemGroup>
