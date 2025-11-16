@@ -73,11 +73,15 @@ public abstract class BotBase : IBot
         }
     }
 
-    protected abstract void HandleAck(AckMessage ack);
+    protected virtual void HandleAck(AckMessage ack)
+    {
+    }
 
     protected abstract void HandleCommand(CommandMessage command);
 
-    protected abstract void HandleGameResult(GameResultMessage gameResult);
+    protected virtual void HandleGameResult(GameResultMessage gameResult)
+    {
+    }
 
     protected async Task SendMessageToSBoxInternal(string message)
     {

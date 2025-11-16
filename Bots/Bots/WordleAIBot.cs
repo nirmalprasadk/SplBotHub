@@ -7,19 +7,20 @@ namespace Bots.Bots;
 
 public class WordleAIBot(ISboxClient sBoxClient, IAIService aIService, string? name = null) : BotBase(sBoxClient, aIService, name)
 {
-    private readonly Dictionary<string, WordleGameState> _games = new();
+    private Dictionary<string, WordleGameState>? _games;
 
     protected override void HandleAck(AckMessage ack)
     {
-        Console.WriteLine($"Received Ack for: {ack.AckFor}");
+        _games = new();
     }
 
     protected override async void HandleCommand(CommandMessage command)
     {
         IBot bot = this;
+        WordleGameState? state = new();
 
         // STEP 1 → Ensure game state exists
-        if (!_games.TryGetValue(command.GameId!, out var state))
+        if (_games is not null && !_games.TryGetValue(command.GameId!, out state))
         {
             state = new WordleGameState
             {
@@ -63,9 +64,9 @@ public class WordleAIBot(ISboxClient sBoxClient, IAIService aIService, string? n
 
     private string BuildPromptFromHistory(WordleGameState state, CommandMessage current)
     {
-        var sb = new StringBuilder();
+        StringBuilder sb = new();
 
-        sb.AppendLine("You are solving a Wordle-like game.");
+        sb.AppendLine("You are solving a Wordle game.");
         sb.AppendLine($"Word length: {state.WordLength}");
         sb.AppendLine($"Attempt number: {current.CurrentAttempt}");
         sb.AppendLine($"Max attempts: {current.MaxAttempts}");
@@ -102,11 +103,6 @@ public class WordleAIBot(ISboxClient sBoxClient, IAIService aIService, string? n
 
     protected override void HandleGameResult(GameResultMessage gameResult)
     {
-        Console.WriteLine($" Result for match {gameResult.MatchId}");
-        Console.WriteLine($" Game:     {gameResult.GameId}");
-        Console.WriteLine($" Outcome:  {gameResult.Result?.ToUpper()}");
-        Console.WriteLine($" Word:     {gameResult.Word}");
-
-        _games.Remove(gameResult.GameId!);
+        _games?.Remove(gameResult.GameId!);
     }
 }

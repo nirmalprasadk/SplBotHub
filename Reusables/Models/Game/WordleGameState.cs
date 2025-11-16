@@ -8,7 +8,13 @@ public class WordleGameState
 
     public int WordLength { get; set; }
 
-    public List<string> Guesses { get; set; } = new();
+    public List<string> Guesses { get; set; }
 
-    public List<List<string>> Results { get; set; } = new();
+    public List<List<string>> Results { get; set; }
+
+    public WordleGameState()
+    {
+        Guesses = new List<string>();
+        Results = new List<List<string>>();
+    }
 }
