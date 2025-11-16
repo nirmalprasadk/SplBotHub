@@ -118,7 +118,7 @@ public class SBoxClient : ISboxClient
     {
         Application.Current.Dispatcher.Invoke(() =>
         {
-            Logs.Add(new BotLogEntry(source, message));
+            Logs.Insert(0, new BotLogEntry(source, message));
         });
     }
 }
