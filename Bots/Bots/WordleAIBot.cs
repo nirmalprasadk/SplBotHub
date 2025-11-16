@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Bots.Bots;
 
-public class CluedleBot(ISboxClient sBoxClient, IAIService aIService, string? name = null) : BotBase(sBoxClient, aIService, name)
+public class WordleAIBot(ISboxClient sBoxClient, IAIService aIService, string? name = null) : BotBase(sBoxClient, aIService, name)
 {
     private readonly Dictionary<string, WordleGameState> _games = new();
 

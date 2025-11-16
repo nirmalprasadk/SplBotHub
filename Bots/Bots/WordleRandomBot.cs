@@ -3,7 +3,7 @@ using Reusables.Models.SBoxMessage;
 
 namespace Bots.Bots;
 
-public class WordleBot(ISboxClient sBoxClient, IAIService aIService, string? name = null) : BotBase(sBoxClient, aIService, name)
+public class WordleRandomBot(ISboxClient sBoxClient, IAIService aIService, string? name = null) : BotBase(sBoxClient, aIService, name)
 {
     protected override void HandleAck(AckMessage ack)
     {
