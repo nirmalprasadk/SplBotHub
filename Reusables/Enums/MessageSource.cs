@@ -4,5 +4,5 @@ public enum MessageSource
 {
     Bot,
     Game,
-    SboxClient
+    App
 }

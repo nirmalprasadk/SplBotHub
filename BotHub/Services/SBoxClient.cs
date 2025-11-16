@@ -37,7 +37,7 @@ public class SBoxClient : ISboxClient
         _sboxServerConfig = ConfigService.GetAppConfig().SBOXServerConfig;
 
         Logs = new ObservableCollection<BotLogEntry>();
-        Log(MessageSource.SboxClient, "SBOX client is initialized");
+        Log(MessageSource.App, "SBOX service initialized");
     }
 
     public async Task ConnectAsync()
@@ -56,7 +56,7 @@ public class SBoxClient : ISboxClient
         }
         finally
         {
-            Log(MessageSource.SboxClient, IsConnected ? "Connected to SBOX server." : "Failed to connect to SBOX server.");
+            Log(MessageSource.App, IsConnected ? "Connected to SBOX client." : "Failed to connect to SBOX client.");
         }
     }
 
@@ -73,7 +73,7 @@ public class SBoxClient : ISboxClient
         finally
         {
             IsConnected = false;
-            Log(MessageSource.SboxClient, "Disconnected from SBOX server.");
+            Log(MessageSource.App, "Disconnected from SBOX server.");
         }
     }
 

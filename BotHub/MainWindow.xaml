@@ -175,7 +175,7 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <ListBox ItemsSource="{Binding SelectedBotLogs}">
+                <ListBox ItemsSource="{Binding SBoxLogs}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Border
