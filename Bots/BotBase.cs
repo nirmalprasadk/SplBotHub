@@ -1,4 +1,6 @@
 ﻿using Reusables.Contracts;
+using Reusables.Models.SBoxMessage;
+using Reusables.Parsers;
 
 namespace Bots;
 
@@ -48,15 +50,43 @@ public abstract class BotBase : IBot
         await SBoxClient.SendMessageAsync(message);
     }
 
-    async Task IBot.SendMessageToSBox(string message)
+    async Task IBot.SendMessageToSBox(BotGuessMessage response)
     {
-        await SendMessageToSBoxInternal(message);
+        string responseJson = SBoxMessageParser.Serialize(response);
+        await SendMessageToSBoxInternal(responseJson);
     }
 
     private void OnSBoxMessageReceivedInternal(string message)
     {
-        OnSBoxMessageReceived(message);
+        if (SBoxMessageParser.Parse(message) is not SBoxMessageBase sBoxMessage)
+        {
+            return;
+        }
+
+        OnSBoxMessageReceived(sBoxMessage);
     }
 
-    protected abstract void OnSBoxMessageReceived(string message);
+    protected virtual void OnSBoxMessageReceived(SBoxMessageBase sBoxMessage)
+    {
+        switch (sBoxMessage)
+        {
+            case AckMessage ack:
+                HandleAck(ack);
+                break;
+
+            case CommandMessage cmd:
+                HandleCommand(cmd);
+                break;
+
+            case GameResultMessage result:
+                HandleGameResult(result);
+                break;
+        }
+    }
+
+    protected abstract void HandleAck(AckMessage ack);
+
+    protected abstract void HandleCommand(CommandMessage command);
+
+    protected abstract void HandleGameResult(GameResultMessage gameResult);
 }

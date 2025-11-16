@@ -1,4 +1,6 @@
-﻿namespace Reusables.Contracts;
+﻿using Reusables.Models.SBoxMessage;
+
+namespace Reusables.Contracts;
 
 public interface IBot
 {
@@ -12,5 +14,5 @@ public interface IBot
 
     void ToggleConnection();
 
-    Task SendMessageToSBox(string message);
+    Task SendMessageToSBox(BotGuessMessage response);
 }
