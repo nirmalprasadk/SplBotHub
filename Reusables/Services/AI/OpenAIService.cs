@@ -14,7 +14,16 @@ public class OpenAIService : IAIService
     public OpenAIService()
     {
         _aiConfig = ConfigService.GetAppConfig().AIConfig;
-        _client = new OpenAIClient(_aiConfig.ApiKey);
+
+        try
+        {
+            _client = new OpenAIClient(_aiConfig.ApiKey);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error initializing OpenAI client: " + ex.Message);
+            throw new InvalidOperationException("Failed to initialize OpenAI client. Please check your API key.", ex);
+        }
     }
 
     public async Task<string> AskAsync(string prompt)

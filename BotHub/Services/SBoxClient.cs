@@ -6,7 +6,7 @@ using System.Collections.ObjectModel;
 
 namespace BotHub.Services;
 
-public class SBoxConnectionService : ISboxClient
+public class SBoxClient : ISboxClient
 {
     private readonly SBoxServerConfig _sboxServerConfig;
     private readonly IClient _client;
@@ -17,7 +17,7 @@ public class SBoxConnectionService : ISboxClient
 
     public ObservableCollection<BotLogEntry> Logs { get; }
 
-    public SBoxConnectionService(IClient client)
+    public SBoxClient(IClient client)
     {
         _client = client;
         _sboxServerConfig = ConfigService.GetAppConfig().SBOXServerConfig;
@@ -74,6 +74,11 @@ public class SBoxConnectionService : ISboxClient
     {
         Log(MessageSource.Bot, message);
         await _client.SendMessageAsync(message, CancellationToken.None);
+    }
+
+    public void ClearLogs()
+    {
+        Logs.Clear();
     }
 
     private void StartConsumingMessageQueue()

@@ -30,7 +30,7 @@ public partial class App : Application
     private void RegisterServices(IServiceCollection services)
     {
         services.AddSingleton<IClient, WebSocketClient>();
-        services.AddSingleton<ISboxClient, SBoxConnectionService>();
+        services.AddSingleton<ISboxClient, SBoxClient>();
         services.AddSingleton<IBotLoaderService, BotLoaderService>();
         services.AddSingleton<IAIService, OpenAIService>();
     }

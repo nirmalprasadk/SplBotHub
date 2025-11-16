@@ -7,6 +7,10 @@ public interface ISboxClient
 {
     bool IsConnected { get; }
 
+    event Action<string>? MessageReceived;
+
+    ObservableCollection<BotLogEntry> Logs { get; }
+
     Task ConnectAsync();
 
     Task DisconnectAsync();
@@ -15,7 +19,5 @@ public interface ISboxClient
 
     Task SendMessageAsync(string message);
 
-    event Action<string>? MessageReceived;
-
-    ObservableCollection<BotLogEntry> Logs { get; }
+    void ClearLogs();
 }

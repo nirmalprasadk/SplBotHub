@@ -21,6 +21,8 @@ public class MainWindowViewModel : BaseViewModel
 
     public BindingCommand BotConnectionCommand { get; private set; }
 
+    public BindingCommand ClearLogsCommand { get; private set; }
+
     public bool IsBotRunning => SelectedBot is not null && SelectedBot.IsRunning;
 
     public ObservableCollection<IBot> AvailableBots { get; }
@@ -49,9 +51,21 @@ public class MainWindowViewModel : BaseViewModel
         SBoxConnectionCommand = new BindingCommand(UpdateSBoxConnection);
         ReloadBotsCommand = new BindingCommand(ReloadBots, CanReloadBots);
         BotConnectionCommand = new BindingCommand(UpdateBotConnection, CanEnableBotConnectionButton);
+        ClearLogsCommand = new BindingCommand(ClearSBoxLogs);
 
         AvailableBots = new ObservableCollection<IBot>();
         LoadBotsToUI();
+    }
+
+    private void ClearSBoxLogs(object? obj)
+    {
+        _sBoxClient.ClearLogs();
+    }
+
+    public void OnWindowClosed(object? sender, EventArgs args)
+    {
+        _botLoaderService.StopAllBots();
+        _sBoxClient.DisconnectAsync().GetAwaiter().GetResult();
     }
 
     private bool CanReloadBots(object? arg) => !IsBotRunning;
