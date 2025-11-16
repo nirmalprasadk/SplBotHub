@@ -1,6 +1,4 @@
-﻿using System.Text.Json;
-
-namespace Reusables.Models.SBoxMessage;
+﻿namespace Reusables.Models.SBoxMessage;
 
 public class CommandMessage : SBoxMessageBase
 {

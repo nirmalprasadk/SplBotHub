@@ -26,8 +26,12 @@ public class BotLogEntry
     {
         try
         {
-            SBoxMessageBase? sBoxMessage = JsonSerializer.Deserialize<SBoxMessageBase>(message);
-            return sBoxMessage?.GameId;
+            using JsonDocument doc = JsonDocument.Parse(message);
+
+            if (doc.RootElement.TryGetProperty("gameId", out JsonElement gameIdProp))
+            {
+                return gameIdProp.GetString();
+            }
         }
         catch
         {
