@@ -189,6 +189,12 @@
                                         Foreground="{StaticResource PrimaryTextBrush}"
                                         Text="{Binding MessageSource}" />
 
+                                    <TextBlock
+                                        Margin="0,0,10,0"
+                                        FontWeight="Medium"
+                                        Foreground="{StaticResource PrimaryTextBrush}"
+                                        Text="{Binding LogTime}" />
+
                                     <TextBlock Foreground="{StaticResource PrimaryTextBrush}" Text="{Binding Message}" />
                                 </StackPanel>
                             </Border>
