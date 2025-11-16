@@ -176,7 +176,7 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <ListBox ItemsSource="{Binding SBoxLogs}">
+                <ListBox Grid.Row="0" ItemsSource="{Binding FilteredSBoxLogs}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Border
@@ -203,16 +203,47 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
 
-                <Button
-                    Grid.Row="1"
-                    HorizontalAlignment="Right"
-                    Command="{Binding ClearLogsCommand}"
-                    Content="Clear Logs"
-                    Style="{StaticResource GenericButtonStyle}" />
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
 
+                    <StackPanel Grid.Column="0" Margin="2">
+                        <Label
+                            HorizontalAlignment="Left"
+                            Content="Filter by Source:"
+                            FontWeight="Medium"
+                            Foreground="{StaticResource PrimaryTextBrush}" />
+                        <ComboBox
+                            Width="100"
+                            ItemsSource="{Binding SourceFilterOptions}"
+                            SelectedItem="{Binding SelectedSourceFilter, Mode=TwoWay}" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Margin="2">
+                        <Label
+                            HorizontalAlignment="Left"
+                            Content="Filter by GameID:"
+                            FontWeight="Medium"
+                            Foreground="{StaticResource PrimaryTextBrush}" />
+                        <ComboBox
+                            Grid.Column="1"
+                            ItemsSource="{Binding GameIdsInLogs}"
+                            SelectedItem="{Binding SelectedGameIdFilter, Mode=TwoWay}" />
+                    </StackPanel>
+
+                    <Button
+                        Grid.Column="2"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
+                        Command="{Binding ClearLogsCommand}"
+                        Content="Clear Logs"
+                        Style="{StaticResource GenericButtonStyle}" />
+                </Grid>
             </Grid>
         </Border>
-
 
     </Grid>
 </Window>
