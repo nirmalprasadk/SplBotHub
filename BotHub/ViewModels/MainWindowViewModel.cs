@@ -110,6 +110,7 @@ public class MainWindowViewModel : BaseViewModel
         if (args.Action == NotifyCollectionChangedAction.Reset)
         {
             GameIdsInLogs.Clear();
+            GameIdsInLogs.Insert(0, NoneFilter);
         }
         else
         {
