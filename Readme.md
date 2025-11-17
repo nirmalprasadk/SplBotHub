@@ -1,5 +1,6 @@
 # 🧠 SPL Bot Hub  
 *A lightweight framework for building C# bots for SPL games.*
+<img width="631" height="539" alt="image" src="https://github.com/user-attachments/assets/76822d5f-9a2a-42d6-8571-d2ae9d03ed26" />
 
 ---
 
