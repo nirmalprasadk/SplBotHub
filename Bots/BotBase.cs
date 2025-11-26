@@ -1,4 +1,5 @@
 ﻿using Reusables.Contracts;
+using Reusables.Enums;
 using Reusables.Models.SBoxMessage;
 using Reusables.Parsers;
 
@@ -41,7 +42,7 @@ public abstract class BotBase : IBot
         }
         else
         {
-           Start();
+            Start();
         }
     }
 
@@ -82,6 +83,11 @@ public abstract class BotBase : IBot
     protected async Task SendMessageToSBoxInternal(string message)
     {
         await SBoxClient.SendMessageAsync(message);
+    }
+
+    protected void Log(string message)
+    {
+        SBoxClient.Log(MessageSource.Bot, message);
     }
 
     async Task IBot.SendMessageToSBox(BotGuessMessage response)

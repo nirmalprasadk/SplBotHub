@@ -100,6 +100,14 @@ public class SBoxClient : ISboxClient
         Logs.Clear();
     }
 
+    public void Log(MessageSource source, string message)
+    {
+        Application.Current.Dispatcher.Invoke(() =>
+        {
+            Logs.Insert(0, new BotLogEntry(source, message));
+        });
+    }
+
     private void StartConsumingMessageQueue()
     {
         var reader = _client.Messages;
@@ -111,14 +119,6 @@ public class SBoxClient : ISboxClient
                 Log(MessageSource.Game, message);
                 _messageReceived?.Invoke(message);
             }
-        });
-    }
-
-    private void Log(MessageSource source, string message)
-    {
-        Application.Current.Dispatcher.Invoke(() =>
-        {
-            Logs.Insert(0, new BotLogEntry(source, message));
         });
     }
 }

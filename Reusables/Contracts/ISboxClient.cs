@@ -1,4 +1,5 @@
-﻿using Reusables.Models;
+﻿using Reusables.Enums;
+using Reusables.Models;
 using System.Collections.ObjectModel;
 
 namespace Reusables.Contracts;
@@ -18,6 +19,8 @@ public interface ISboxClient
     Task ToggleConnectionAsync();
 
     Task SendMessageAsync(string message);
+
+    void Log(MessageSource source, string message);
 
     void ClearLogs();
 }

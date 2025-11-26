@@ -2,5 +2,5 @@
 
 public interface IAIService
 {
-    Task<string> AskAsync(string prompt);
+    Task<string> AskAsync(string prompt, CancellationTokenSource cancellationToken);
 }

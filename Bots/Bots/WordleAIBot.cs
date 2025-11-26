@@ -7,6 +7,7 @@ namespace Bots.Bots;
 
 public class WordleAIBot(ISboxClient sBoxClient, IAIService aIService, string? name = null) : BotBase(sBoxClient, aIService, name)
 {
+    private const string fallbackWord = "AEIOU";
     private readonly Dictionary<string, WordleGameState> _games = new();
 
     protected override void HandleAck(AckMessage ack)
@@ -15,10 +16,8 @@ public class WordleAIBot(ISboxClient sBoxClient, IAIService aIService, string? n
 
     protected override async void HandleCommand(CommandMessage command)
     {
-        IBot bot = this;
-
         // STEP 1 → Ensure game state exists
-        if (!_games.TryGetValue(command.GameId!, out var state))
+        if (!_games.TryGetValue(command.GameId!, out WordleGameState? state))
         {
             state = new WordleGameState
             {
@@ -41,12 +40,22 @@ public class WordleAIBot(ISboxClient sBoxClient, IAIService aIService, string? n
         string prompt = BuildPromptFromHistory(state, command);
 
         // STEP 4 → Ask AI service for the next guess
-        string aiGuess = await AIService.AskAsync(prompt);
+        string guess = string.Empty;
+        try
+        {
+            guess = await AIService.AskAsync(prompt, new(TimeSpan.FromSeconds(50)));
+            guess = guess.Trim().ToUpper();
+        }
+        catch (Exception ex)
+        {
+            Log($"MatchID:{command.MatchId}; " +
+                $"GameID: {command.GameId}; " +
+                $"Error: {ex.Message}; " +
+                $"FallbackWord: {fallbackWord}");
+            guess = fallbackWord;
+        }
 
-        // STEP 5 → Normalize guess
-        string guess = aiGuess.Trim().ToUpper();
-
-        // STEP 6 → Construct response message
+        // STEP 5 → Construct response message
         BotGuessMessage botGuessMessage = new()
         {
             MatchId = command.MatchId,
@@ -55,16 +64,16 @@ public class WordleAIBot(ISboxClient sBoxClient, IAIService aIService, string? n
             Guess = guess
         };
 
-        // STEP 7 → Send to server
+        // STEP 6 → Send to server
+        IBot bot = this;
         await bot.SendMessageToSBox(botGuessMessage);
-
     }
 
     private string BuildPromptFromHistory(WordleGameState state, CommandMessage current)
     {
-        var sb = new StringBuilder();
+        StringBuilder sb = new();
 
-        sb.AppendLine("You are solving a Wordle-like game.");
+        sb.AppendLine("You are solving a Wordle game.");
         sb.AppendLine($"Word length: {state.WordLength}");
         sb.AppendLine($"Attempt number: {current.CurrentAttempt}");
         sb.AppendLine($"Max attempts: {current.MaxAttempts}");
@@ -73,7 +82,7 @@ public class WordleAIBot(ISboxClient sBoxClient, IAIService aIService, string? n
 
         if (state.Guesses.Count == 0)
         {
-            sb.AppendLine("No guesses yet. This is the first move.");
+            sb.AppendLine("No guesses yet. This is the first move. Pick a word that could maximize the change of winning.");
         }
         else
         {
